@@ -10,7 +10,7 @@
           <v-text-field
             variant="outlined"
             v-model="name"
-            :rules="[isRequired]"
+            :rules="[validators.required, validators.namesValidator]"
             label="Nombre"
             required
           />
@@ -18,7 +18,7 @@
           <v-text-field
             variant="outlined"
             v-model="email"
-            :rules="[isRequired, isEmail]"
+            :rules="[validators.required, validators.emailValidator]"
             label="E-mail"
             placeholder="ejemplo@correo.com"
             required
@@ -26,7 +26,7 @@
           <v-text-field
             variant="outlined"
             v-model="username"
-            :rules="[isRequired]"
+            :rules="[validators.required, validators.userNamesValidator]"
             label="Nombre de Usuario"
             required
           />
@@ -34,7 +34,7 @@
           <v-text-field
             variant="outlined"
             v-model="phone"
-            :rules="[isRequired]"
+            :rules="[validators.required, validators.phoneNumberValidator]"
             label="Nro. de teléfono"
             required
           />
@@ -58,6 +58,13 @@ import type { UserModel } from '@/models/usersModel.ts'
 import { useUsersStore } from '@/stores/usersStore.ts'
 import { computed, ref } from 'vue'
 import ConfirmDialog from '@/common/component/confirm-dialog/ConfirmDialog.vue'
+import {
+  emailValidator,
+  namesValidator,
+  phoneNumberValidator,
+  required,
+  userNamesValidator,
+} from '@/common/validators'
 const form = ref()
 const name = ref('')
 const username = ref('')
@@ -74,8 +81,13 @@ if (props.editData) {
   email.value = props.editData.email
   phone.value = props.editData.phone
 }
-const isRequired = (value: string) => !!value || 'Este campo es requerido'
-const isEmail = (value: string) => /.+@.+\..+/.test(value) || 'Ingrese un email valido'
+const validators = {
+  required,
+  emailValidator,
+  phoneNumberValidator,
+  namesValidator,
+  userNamesValidator,
+}
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
