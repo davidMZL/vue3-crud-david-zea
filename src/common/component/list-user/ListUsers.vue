@@ -32,7 +32,7 @@
       <VTable
         v-if="!isLoading"
         class="elevation-1"
-        :height="users.length > 0 ? 'calc(100vh - 300px)' : 'auto'"
+        :height="users.length > 0 ? 'calc(90vh - 300px)' : 'auto'"
         fixed-header
       >
         <thead>
@@ -46,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(tempUser, index) in paginatedUsers" :key="tempUser.id">
+          <tr v-for="(tempUser) in paginatedUsers" :key="tempUser.id">
             <td class="text-center">{{ tempUser.id }}</td>
             <td class="text-center">{{ tempUser.name }}</td>
             <td class="text-center">{{ tempUser.username }}</td>
@@ -70,7 +70,8 @@
                       variant="plain"
                       size="x-small"
                       v-bind="props"
-                      @click="handleDelete(tempUser?.id ?? 0)"
+                      v-if="typeof tempUser.id === 'number'"
+                      @click="handleDelete(tempUser.id)"
                     >
                       <VIcon icon="mdi-trash-can" size="22" />
                     </VBtn>
@@ -82,18 +83,23 @@
         </tbody>
       </VTable>
 
-      <div v-if="totalPages > 1" class="d-flex justify-center align-center mt-4">
+      <div class="d-flex justify-center align-center mt-4">
         <VPagination
           v-model="currentPage"
           :length="totalPages"
           :total-visible="5"
+          :disabled="totalPages === 1"
           rounded
           prev-icon="mdi-chevron-left"
           next-icon="mdi-chevron-right"
         />
       </div>
 
-      <div v-else class="d-flex justify-center align-center" style="height: 200px">
+      <div
+        v-if="isLoading"
+        class="d-flex justify-center align-center"
+        style="height: 200px"
+      >
         <div class="text-center">
           <VProgressCircular indeterminate color="primary" size="40" />
           <div class="mt-3">Cargando usuarios...</div>
