@@ -7,6 +7,7 @@
     v-model="confirmDialog"
     :message="confirmMessage"
     :loading="confirmLoading"
+    :title="'Eliminar Usuario'"
     @confirm="onConfirm"
     @cancel="onCancel"
   />
@@ -55,7 +56,7 @@
             <td class="text-center">
               <div class="d-flex justify-center">
                 <VTooltip text="Editar" top>
-                  <template #activator="{ props }">
+                  <template v-slot:activator="{ props }">
                     <VBtn
                       color="info"
                       variant="plain"
@@ -65,13 +66,16 @@
                     >
                       <VIcon icon="mdi-account-edit" size="22" />
                     </VBtn>
+                  </template>
+                </VTooltip>
+                <VTooltip text="Eliminar" top>
+                  <template v-slot:activator="{ props }">
                     <VBtn
                       color="error"
                       variant="plain"
                       size="x-small"
                       v-bind="props"
-                      v-if="typeof tempUser.id === 'number'"
-                      @click="handleDelete(tempUser.id)"
+                      @click="handleDelete(tempUser)"
                     >
                       <VIcon icon="mdi-trash-can" size="22" />
                     </VBtn>

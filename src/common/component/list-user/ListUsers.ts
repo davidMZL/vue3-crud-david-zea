@@ -70,11 +70,11 @@ export default defineComponent({
       confirmDialog.value = true
     }
 
-    const handleDelete = async (id: number) => {
-      showConfirm('¿Deseas borrar este usuario?', async () => {
+    const handleDelete = async (dataUser: UserModel) => {
+      showConfirm(`¿Deseas eliminar el usuario: ${dataUser.name}?`, async () => {
         confirmLoading.value = true
         await new Promise(r => setTimeout(r, 1200))
-        deleteUser(id)
+        deleteUser(dataUser.id)
         confirmLoading.value = false
         confirmDialog.value = false
       })

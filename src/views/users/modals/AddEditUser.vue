@@ -49,6 +49,7 @@
     v-model="confirmDialog"
     :message="confirmMessage"
     :loading="confirmLoading"
+    :title="props.editData ? 'Editar Usuario' : 'Agregar Usuario'"
     @confirm="onConfirm"
     @cancel="onCancel"
   />
