@@ -1,6 +1,16 @@
 <script src="./ListUsers.ts" lang="ts"></script>
 
 <template>
+  <!-- modales -->
+  <AddEditUser v-model="userModal" v-if="userModal" :edit-data="userToEdit" />
+  <ConfirmDialog
+    v-model="confirmDialog"
+    :message="confirmMessage"
+    :loading="confirmLoading"
+    @confirm="onConfirm"
+    @cancel="onCancel"
+  />
+  <!-- Lista -->
   <VContainer fluid class="px-4">
     <VCard class="pa-4 elevation-2 mx-auto" width="1200" min-width="600" max-width="1200">
       <VRow no-gutters align="center">
@@ -59,7 +69,7 @@
                       variant="plain"
                       size="x-small"
                       v-bind="props"
-                      @click="deleteUser(tempUser?.id ?? 0)"
+                      @click="handleDelete(tempUser?.id ?? 0)"
                     >
                       <VIcon icon="mdi-trash-can" size="22" />
                     </VBtn>
@@ -79,7 +89,6 @@
       </div>
     </VCard>
   </VContainer>
-  <AddEditUser v-model="userModal" v-if="userModal" :edit-data="userToEdit" />
 </template>
 
 <style scoped></style>

@@ -1,7 +1,9 @@
 <template>
   <v-dialog v-model="value" width="500">
     <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> Privacy Policy </v-card-title>
+      <v-card-title class="text-h5 grey lighten-2">
+        {{ props.editData ? 'Editar Usuario' : 'Agregar Usuario' }}
+      </v-card-title>
 
       <v-card-text>
         <v-form ref="form">
@@ -34,18 +36,26 @@
             label="Phone"
             required
           ></v-text-field>
-          <v-btn type="button" @click="save" color="success" class="mr-4"> Save </v-btn>
+          <v-btn type="button" @click="onSaveClick" color="success" class="mr-4"> Guardar </v-btn>
 
-          <v-btn color="error" type="button" class="mr-4" @click="close"> Cancel </v-btn>
+          <v-btn color="error" type="button" class="mr-4" @click="close"> Cancelar </v-btn>
         </v-form>
       </v-card-text>
     </v-card>
   </v-dialog>
+  <ConfirmDialog
+    v-model="confirmDialog"
+    :message="confirmMessage"
+    :loading="confirmLoading"
+    @confirm="onConfirm"
+    @cancel="onCancel"
+  />
 </template>
 <script setup lang="ts">
 import type { UserModel } from '@/models/usersModel'
 import { useUsersStore } from '@/stores/usersStore'
 import { computed, ref } from 'vue'
+import ConfirmDialog from '@/common/component/confirm-dialog/ConfirmDialog.vue'
 const form = ref()
 const name = ref('')
 const username = ref('')
@@ -74,6 +84,36 @@ const value = computed({
     emit('update:modelValue', value)
   },
 })
+
+const confirmDialog = ref(false)
+const confirmMessage = ref('')
+const confirmLoading = ref(false)
+let saveAction: (() => Promise<void>) | null = null
+
+const onSaveClick = async () => {
+  const { valid } = (await form.value?.validate()) ?? { valid: false }
+  if (!valid) return
+  confirmMessage.value = props.editData
+    ? '¿Deseas guardar los cambios de este usuario?'
+    : '¿Deseas agregar este usuario?'
+  saveAction = save
+  confirmDialog.value = true
+}
+
+const onConfirm = async () => {
+  if (saveAction) {
+    confirmLoading.value = true
+    await new Promise((r) => setTimeout(r, 1200))
+    await saveAction()
+    confirmLoading.value = false
+    confirmDialog.value = false
+    saveAction = null
+  }
+}
+const onCancel = () => {
+  confirmDialog.value = false
+  saveAction = null
+}
 
 const save = async () => {
   const { valid } = (await form.value?.validate()) ?? { valid: false }
