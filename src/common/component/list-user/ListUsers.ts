@@ -41,6 +41,12 @@ export default defineComponent({
     }
     const goToPrev = () => { if (currentPage.value > 1) currentPage.value-- }
     const goToNext = () => { if (currentPage.value < totalPages.value) currentPage.value++ }
+
+    const visibleRangeLabel = computed(() => {
+      const start = (currentPage.value - 1) * pageSize + 1
+      const end = Math.min(start + pageSize - 1, users.value.length)
+      return `${start}-${end} de ${users.value.length}`
+    })
     // Paginación final
 
     const openModal = (user: UserModel | null = null) => {
@@ -97,8 +103,11 @@ export default defineComponent({
       onConfirm,
       onCancel,
       handleDelete,
+
       currentPage,
       totalPages,
+      pageSize,
+      visibleRangeLabel,
       goToPage,
       goToPrev,
       goToNext

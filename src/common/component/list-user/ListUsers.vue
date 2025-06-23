@@ -46,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(tempUser) in paginatedUsers" :key="tempUser.id">
+          <tr v-for="tempUser in paginatedUsers" :key="tempUser.id">
             <td class="text-center">{{ tempUser.id }}</td>
             <td class="text-center">{{ tempUser.name }}</td>
             <td class="text-center">{{ tempUser.username }}</td>
@@ -93,13 +93,10 @@
           prev-icon="mdi-chevron-left"
           next-icon="mdi-chevron-right"
         />
+        <span class="ml-4 text-caption text-grey-darken-1">{{ visibleRangeLabel }}</span>
       </div>
 
-      <div
-        v-if="isLoading"
-        class="d-flex justify-center align-center"
-        style="height: 200px"
-      >
+      <div v-if="isLoading" class="d-flex justify-center align-center" style="height: 200px">
         <div class="text-center">
           <VProgressCircular indeterminate color="primary" size="40" />
           <div class="mt-3">Cargando usuarios...</div>

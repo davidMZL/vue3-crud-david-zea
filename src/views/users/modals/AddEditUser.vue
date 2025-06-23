@@ -8,34 +8,36 @@
       <v-card-text>
         <v-form ref="form">
           <v-text-field
+            variant="outlined"
             v-model="name"
-            :counter="10"
             :rules="[isRequired]"
-            label="Name"
+            label="Nombre"
             required
-          ></v-text-field>
+          />
 
           <v-text-field
+            variant="outlined"
             v-model="email"
             :rules="[isRequired, isEmail]"
             label="E-mail"
+            placeholder="ejemplo@correo.com"
             required
-          ></v-text-field>
+          />
           <v-text-field
+            variant="outlined"
             v-model="username"
-            :counter="10"
             :rules="[isRequired]"
-            label="Username"
+            label="Nombre de Usuario"
             required
-          ></v-text-field>
+          />
 
           <v-text-field
+            variant="outlined"
             v-model="phone"
-            :counter="10"
             :rules="[isRequired]"
-            label="Phone"
+            label="Nro. de teléfono"
             required
-          ></v-text-field>
+          />
           <v-btn type="button" @click="onSaveClick" color="success" class="mr-4"> Guardar </v-btn>
 
           <v-btn color="error" type="button" class="mr-4" @click="close"> Cancelar </v-btn>
@@ -72,8 +74,8 @@ if (props.editData) {
   email.value = props.editData.email
   phone.value = props.editData.phone
 }
-const isRequired = (value: string) => !!value || 'This field is required'
-const isEmail = (value: string) => /.+@.+\..+/.test(value) || 'E-mail must be valid'
+const isRequired = (value: string) => !!value || 'Este campo es requerido'
+const isEmail = (value: string) => /.+@.+\..+/.test(value) || 'Ingrese un email valido'
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
