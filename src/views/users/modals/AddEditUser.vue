@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="value" width="500">
+  <v-dialog v-model="value" width="500" persistent>
     <v-card>
       <v-card-title class="text-h5 grey lighten-2">
         {{ props.editData ? 'Editar Usuario' : 'Agregar Usuario' }}

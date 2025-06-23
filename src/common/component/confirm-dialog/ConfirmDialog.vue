@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="modelValue" width="400">
+  <v-dialog v-model="modelValue" width="400" persistent>
     <v-card>
       <v-card-title class="text-h6">{{ title }}</v-card-title>
       <v-card-text>{{ message }}</v-card-text>
