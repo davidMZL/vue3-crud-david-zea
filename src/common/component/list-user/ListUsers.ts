@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, computed, watch } from 'vue'
 import { useUsers } from '@/composables/useUsers.ts'
 import AddEditUser from '@/views/modals/AddEditUser.vue'
 import type { UserModel } from '@/models/usersModel.ts'
@@ -15,7 +15,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { users, fetchUsers, isLoading,deleteUser } = useUsers()
+    const { users, fetchUsers, isLoading, deleteUser } = useUsers()
     const nameComponent = props.title
     const userModal = ref(false)
     const userToEdit = ref<null | UserModel>(null)
@@ -24,13 +24,39 @@ export default defineComponent({
     const confirmLoading = ref(false)
     const confirmAction = ref<null | (() => Promise<void>)>(null)
 
-    onMounted(async () => {
-      await fetchUsers()
+
+    // Paginación inicio
+    const pageSize = 8
+    const currentPage = ref(1)
+    const paginatedUsers = computed(() => {
+      const start = (currentPage.value - 1) * pageSize
+      return users.value.slice(start, start + pageSize)
     })
+    const totalPages = computed(() => Math.ceil(users.value.length / pageSize))
+
+    const goToPage = (page: number) => {
+      if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page
+      }
+    }
+    const goToPrev = () => { if (currentPage.value > 1) currentPage.value-- }
+    const goToNext = () => { if (currentPage.value < totalPages.value) currentPage.value++ }
+    // Paginación final
+
     const openModal = (user: UserModel | null = null) => {
       userToEdit.value = user
       userModal.value = true
     }
+
+    watch(users, (newVal, oldVal) => {
+      if (newVal.length > oldVal.length) {
+        currentPage.value = 1
+      }
+    })
+
+    onMounted(async () => {
+      await fetchUsers()
+    })
 
     const showConfirm = (message: string, action: () => Promise<void>) => {
       confirmMessage.value = message
@@ -58,6 +84,7 @@ export default defineComponent({
 
     return {
       users,
+      paginatedUsers,
       isLoading,
       nameComponent,
       userModal,
@@ -69,7 +96,12 @@ export default defineComponent({
       confirmLoading,
       onConfirm,
       onCancel,
-      handleDelete
+      handleDelete,
+      currentPage,
+      totalPages,
+      goToPage,
+      goToPrev,
+      goToNext
     }
   },
 })

@@ -27,7 +27,7 @@ export const useUsersStore = defineStore('usersStore', {
     newUser(user: UserModel): void {
       const maxId = this.users.reduce((max, { id }) => (id && id > max ? id : max), 0)
       user.id = maxId + 1
-      this.users.push(user)
+      this.users.unshift(user)
     },
     updateUser(user: UserModel): void {
       const idx = this.users.findIndex(({ id }) => id == user.id)

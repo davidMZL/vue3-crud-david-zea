@@ -46,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(tempUser, index) in users" :key="index">
+          <tr v-for="(tempUser, index) in paginatedUsers" :key="tempUser.id">
             <td class="text-center">{{ tempUser.id }}</td>
             <td class="text-center">{{ tempUser.name }}</td>
             <td class="text-center">{{ tempUser.username }}</td>
@@ -81,6 +81,17 @@
           </tr>
         </tbody>
       </VTable>
+
+      <div v-if="totalPages > 1" class="d-flex justify-center align-center mt-4">
+        <VPagination
+          v-model="currentPage"
+          :length="totalPages"
+          :total-visible="5"
+          rounded
+          prev-icon="mdi-chevron-left"
+          next-icon="mdi-chevron-right"
+        />
+      </div>
 
       <div v-else class="d-flex justify-center align-center" style="height: 200px">
         <div class="text-center">
