@@ -52,8 +52,8 @@
   />
 </template>
 <script setup lang="ts">
-import type { UserModel } from '@/models/usersModel'
-import { useUsersStore } from '@/stores/usersStore'
+import type { UserModel } from '@/models/usersModel.ts'
+import { useUsersStore } from '@/stores/usersStore.ts'
 import { computed, ref } from 'vue'
 import ConfirmDialog from '@/common/component/confirm-dialog/ConfirmDialog.vue'
 const form = ref()

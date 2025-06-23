@@ -1,6 +1,6 @@
 import { defineComponent, onMounted, ref, computed, watch } from 'vue'
 import { useUsers } from '@/composables/useUsers.ts'
-import AddEditUser from '@/views/modals/AddEditUser.vue'
+import AddEditUser from '@/views/users/modals/AddEditUser.vue'
 import type { UserModel } from '@/models/usersModel.ts'
 import ConfirmDialog from '@/common/component/confirm-dialog/ConfirmDialog.vue'
 
