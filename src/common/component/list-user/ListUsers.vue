@@ -20,10 +20,11 @@
         <div class="ml-4 text-h5 font-weight-medium">
           {{ nameComponent }}
         </div>
-        <VBtn color="primary" variant="plain" size="x-small" @click="openModal(null)">
-          <VIcon icon="mdi-plus" size="22" />
-        </VBtn>
         <VSpacer />
+        <VBtn color="primary" @click="openModal(null)">
+          <VIcon size="22" left> mdi-plus </VIcon>
+          <span>Crear Usuario</span>
+        </VBtn>
       </VRow>
 
       <VDivider class="my-4" />
